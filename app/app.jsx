@@ -1,18 +1,21 @@
 import React from 'react';
 import { render } from 'react-dom';
-import { Route, Router, IndexRoute, browserHistory } from 'react-router';
+import { AppContainer } from 'react-hot-loader';
 
-import Wrapper from 'Wrapper';
-import About from 'About';
 import Game from 'Game';
 import 'styles';
 
-render(
-  <Router history={browserHistory}>
-    <Route path="/" component={Wrapper}>
-      <Route path="about" component={About} />
-      <IndexRoute component={Game} />
-    </Route>
-  </Router>,
-  document.getElementById('app')
-);
+const renderComponent = (Component) => {
+  render(
+    <AppContainer>
+      <Component />
+    </AppContainer>,
+    document.getElementById('app')
+  );
+};
+
+renderComponent(Game);
+
+if (module.hot) {
+  module.hot.accept(Game, () => { renderComponent(Game); });
+}
